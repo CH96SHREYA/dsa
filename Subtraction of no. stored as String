@@ -1,0 +1,74 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+    public static void performSubtraction(String large,int lenL,String smaller,int lenS){
+        int sub=0,carry=0;
+        String ans="";
+        
+        //System.out.println("large ="+large);
+       // System.out.println("small ="+smaller);
+        //System.out.println("length of large ="+lenL);
+         //System.out.println("length of smaller="+lenS);
+        for(int i=0;i<lenS;i++)
+        {
+            sub=((int)(large.charAt(i)-'0'))-((int)(smaller.charAt(i)-'0'))-carry;
+           //System.out.print("the sub is="+sub);
+            if(sub<0){
+                sub+=10;
+                carry=1;
+            }
+            else
+                carry=0;
+            ans += (char)(sub + '0'); 
+        }
+        
+        for(int i=lenS;i<lenL;i++){
+            sub=((int)large.charAt(i)-'0')-carry;
+            if(sub<0){
+                sub+=10;
+                carry=1;
+            }
+            else
+                carry=0;
+            ans += (char)(sub + '0'); 
+        }
+       System.out.println("The difference is ="+new StringBuffer(ans).reverse().toString().trim());
+    }
+    public static  boolean isLarger(String num1,String num2){
+        if(num1.length()>num2.length())
+            return true;
+        
+        
+        for(int i=0;i<num1.length();i++){
+            if(num1.charAt(i)<num2.charAt(i))
+                return false;
+        }
+        return true;
+        
+    }
+    
+	public static void main (String[] args) {
+	
+	String numA="100";String numB="2";
+	String strA=new StringBuilder(numA).reverse().toString();
+	String strB=new StringBuffer(numB).reverse().toString();
+
+	int lenA=strA.length();
+	int lenB=strB.length();
+	
+	if(isLarger(numA,numB))
+	    performSubtraction(strA,lenA,strB,lenB);
+	else
+	    performSubtraction(strB,lenB,strA,lenA);
+	}
+}
+	
+	
+	
