@@ -1,0 +1,241 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+class LinkedList
+{
+  Node head;
+
+  static class Node
+  {
+    int data;
+    Node next;
+
+      Node (int data)
+    {
+      this.data = data;
+      this.next = null;
+    }
+  }
+
+
+  public static LinkedList insert (LinkedList list, int data)
+  {
+
+    Node new_node = new Node (data);
+    //if list is empty
+
+    if (list.head == null)
+      list.head = new_node;
+    else
+      {
+	//traverse the list
+	Node last = list.head;
+	while (last.next != null)
+	  last = last.next;
+	last.next = new_node;
+      }
+    return list;
+  }
+
+  public static void print (LinkedList list)
+  {
+    Node currNode = list.head;
+    while (currNode != null)
+      {
+	System.out.print (currNode.data + " ");
+	currNode = currNode.next;
+      }
+  }
+
+  public static LinkedList delete (LinkedList list, int key)
+  {
+
+    //If the element is the first element
+    // Node head=list.head;
+    if (list.head != null && list.head.data == key)
+      {
+	System.out.println ("Case of element at head,element deleted " +
+			    list.head.data);
+	list.head = list.head.next;
+      }
+
+    //If elemnt is in middle or end
+    Node currNode = list.head;
+    Node prevNode = null;
+    //reach till the Node
+    while (currNode != null && currNode.data != key)
+      {
+	prevNode = currNode;
+	currNode = currNode.next;
+      }
+
+    if (currNode != null)
+      prevNode.next = currNode.next;
+    System.out.println ("The element deleted is  " + key);
+
+    if (currNode == null)
+      System.out.println ("The element with  given key is not present ");
+    return list;
+  }
+
+  public static LinkedList deleteByPosition (LinkedList list, int pos)
+  {
+    pos -= 1;
+    //If the 1st element has to deleted;
+    if (list.head != null && pos == 0)
+      {
+	System.out.println ("Case of element at head,element deleted " +
+			    list.head.data);
+	list.head = list.head.next;
+      }
+    Node currNode = list.head;
+    Node prevNode = null;
+    int i = 0;
+    //reach till the Node
+    while (currNode != null && i < pos)
+      {
+	prevNode = currNode;
+	currNode = currNode.next;
+	i++;
+      }
+
+    if (currNode != null)
+      prevNode.next = currNode.next;
+    System.out.println ("The element deleted is at position  " + pos + 1);
+
+    if (currNode == null)
+      System.out.println ("The element with  given key is not present ");
+    return list;
+
+  }
+  public static int length(LinkedList list)
+  {
+    Node currNode = list.head;
+    int count = 0;
+    while (currNode != null)
+      {
+	count++;
+	currNode = currNode.next;
+      }
+      return count;
+   // System.out.println ("No. of elements " + count);
+
+  }
+  
+  public static LinkedList deleteAlternateElements(LinkedList list){
+      
+      Node currNode=list.head;
+      while(currNode.next!=null){
+          currNode.next=currNode.next.next;
+          currNode=currNode.next;
+      }
+      return list;
+  }
+  
+  public static boolean checkListsAreIdentical(LinkedList listA,LinkedList listB){
+      
+      Node curr1=listA.head;
+      Node curr2=listB.head;
+      
+      if((curr1==null) || (curr2==null)||(curr1.data!=curr2.data)||(length(listA)!=length(listB)) )
+        return false;
+      while(curr1!=null){
+          if(curr1.data!=curr2.data)
+              return false;
+              curr1=curr1.next;
+              curr2=curr2.next;
+      }
+       return true;
+  }
+  
+  public static int sumOfLastNnodes(LinkedList list,int len,int N){
+      Node curr=list.head;
+      int i=0,sum=0;
+      while(curr!=null &&  i<len-N){
+            i++;
+            curr=curr.next;
+      }
+      while(curr!=null){
+            sum+=curr.data;
+            curr=curr.next;
+      }
+      return sum;
+  }
+  
+  public static Node findMiddleOfLinkedList(LinkedList list){
+      Node slow,fast,evenMid;
+      evenMid=slow=fast=list.head;
+      while(fast!=null && fast.next!=null ){
+          evenMid=slow;
+          slow=slow.next;
+          fast=fast.next.next;
+      }
+      if(fast==null)
+        return evenMid;
+      return slow;
+      
+  }
+  
+  public static LinkedList insertInMiddleOfLinkedList(LinkedList list,Node middle){
+      Node newdata=new Node(999);
+      newdata.next=middle.next;
+      middle.next=newdata;
+      
+      return list;
+  }
+  
+  
+  
+
+
+
+
+}
+
+public class Main extends LinkedList
+{
+  public static void main (String[]args)
+  {
+    LinkedList list = new LinkedList ();
+
+      list = insert (list, 1);
+      list = insert (list, 2);
+      list = insert (list, 3);
+      list = insert (list, 4);
+      list = insert (list, 5);
+      list = insert (list, 6);
+     // list = insert (list, 7);
+     // list = insert (list, 8);
+      //list = insert (list, 9);
+      print(list);
+      LinkedList list1=new LinkedList();
+      
+      System.out.println("-----------------------------------");
+    //  list1=insert(list1,1);
+      list1=insert(list1,2);
+      list1=insert(list1,3);
+      list1=insert(list1,4);
+      list1=insert(list1,5);
+      list1=insert(list1,6);
+      list1=insert(list1,17);
+      list1=insert(list1,8);
+      list1=insert(list1,9);
+    // print(list1);
+      //System.out.println(checkListsAreIdentical(list,list1));
+    //  System.out.println(sumOfLastNnodes(list,length(list),2));
+    Node mid=findMiddleOfLinkedList(list);
+      //System.out.println(mid);
+      
+      System.out.println("After insertion");
+      insertInMiddleOfLinkedList(list,mid);
+      print(list); 
+    
+  }
+}
+
+
