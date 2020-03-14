@@ -1,0 +1,46 @@
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] matrix=new int[n][n] ;
+        /*if(matrix==null  ||matrix.length==0)
+            return list; */
+        if(n==0)
+            return new int[][]{};
+       
+        int top=0; int bottom=matrix.length-1;
+        int left=0; int right=matrix[0].length-1;
+        int direct=0;int k=1;
+        while(top<=bottom && left<=right && k<=Math.pow(n,2)){
+          //right  
+            if(direct==0){
+                for(int i=left;i<=right;i++)
+                   matrix[top][i]=k++;
+                top++;
+                
+            }
+           //bottom 
+            if(direct==1){
+                 for(int i=top;i<=bottom;i++)
+                    matrix[i][right]=k++;
+                right--;
+            }
+           //left 
+            if(direct==2){
+                 for(int i=right;i>=left;i--)
+                    matrix[bottom][i]=k++;
+                bottom--;
+                
+            }
+           //up 
+            if(direct==3){
+                for(int i=bottom;i>=top;i--)
+                     matrix[i][left]=k++;
+                left++;           
+                
+            }              
+            
+            direct=(direct+1)%4;
+        }
+        return matrix;
+        
+    }
+}
