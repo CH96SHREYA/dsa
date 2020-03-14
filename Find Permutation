@@ -1,0 +1,23 @@
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public ArrayList<Integer> findPerm(final String A, int B) {
+        Stack<Integer> s=new Stack<Integer>();
+        int j=0;
+        ArrayList<Integer> res=new ArrayList<>();
+        for(int i=1;i<=A.length();i++){
+            if(A.charAt(i-1)=='I'){
+                s.push(i);
+                while(!s.isEmpty())
+                    res.add(s.pop());
+            }
+            else
+                s.push(i);
+        }
+        s.push(A.length()+1);
+        while(!s.isEmpty())
+            res.add(s.pop());
+        
+        return res;
+        
+    }
+}
