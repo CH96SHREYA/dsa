@@ -1,0 +1,41 @@
+public class Solution {
+    public int[] flip(String A) {
+        int[] res=new int[2];
+        int [] A1=new int[A.length()];
+        int local_max=0; int global_max=Integer.MIN_VALUE;
+        int currL=0; int currR=0;boolean zeroes=false;
+        //convert string into int array
+       // String[] strs = A.trim().split("\\s+"); 
+         for (int i = 0; i < A.length(); i++) 
+                A1[i] = Integer.parseInt(String.valueOf(A.charAt(i)));
+        for(int i=0;i<A1.length;i++){
+            if(A1[i]==0)
+                zeroes=true;
+            A1[i]=A1[i]==1?-1:1;
+        }
+        if(!zeroes)
+            return  new int[]{};
+        
+        for(int i=0;i<A1.length;i++){
+           // int value=Character.getNumericValue(A.charAt(i));
+            if(A1[i]+local_max>=A1[i]){
+                local_max+=A1[i];
+                currR=i;
+            }
+            else{
+                local_max=A1[i]; 
+                currL=i;
+                currR=i;//??????
+                }
+            
+            if(local_max>global_max){
+                global_max=local_max;
+                res[0]=currL+1;//left
+                res[1]=currR+1;//right
+               // res[2]=local_max;//max sum
+            }
+        }
+        
+        return res;
+    }
+}
