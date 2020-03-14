@@ -1,0 +1,24 @@
+public class Solution {
+    public int firstMissingPositive(int[] A) {
+        // set all -ve no. to value greater than length of array
+        int n=A.length;
+        for(int i=0;i<n;i++){
+            if(A[i]<=0)
+                A[i]=n+1;
+        }
+        
+        for(int i=0;i<n;i++){
+            int index=Math.abs(A[i]);
+            if(index<=n && A[index-1]>0)//the no. is less then length elese array index out of bounds and the no. is not visited before
+                A[index-1]*=-1;
+        }
+        
+        //by now it means if a[i]<0 then i+1 no. is present
+        
+        for(int i=0;i<n;i++){
+            if(A[i]>=0)
+                return i+1;
+        }
+        return n+1;
+    }
+}
