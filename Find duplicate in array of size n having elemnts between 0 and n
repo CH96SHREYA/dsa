@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main
+{
+    public static int findDuplicates(int[]a){
+        //the elements are in the range 0 to n 
+        //size of array is n+1
+        //So there must be atleast one element that is Duplicate 
+        int n=a.length;
+        //create an array of size n 
+        int [] b=new int[n];
+        Arrays.fill(b,0);
+        int elem=0;
+        for(int i=0;i<n;i++){
+            elem=a[i];
+        if(b[elem]==0)
+            b[elem]++;
+        else
+            break;
+            
+        }
+        return(elem);
+    }
+	public static void main(String[] args) {
+	    int [] a={3,4,1,4,1};
+		System.out.println(findDuplicates(a));
+	}
+}
