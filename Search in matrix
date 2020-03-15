@@ -1,0 +1,48 @@
+class Solution {
+    
+public static boolean searchMatrix(int [][]A,int key){
+    if(A==null ||A.length==0)
+        return false;
+    if(A[0].length==0)
+        return false;
+     int nrow=A.length;
+     int ncol=A[0].length;
+    
+     if(key<A[0][0] || key>A[nrow-1][ncol-1])
+        return false;
+    if(nrow==1 && A[0][0]==key)
+        return true;
+    if(nrow>=1){
+    for(int i=0;i<nrow-1;i++){
+        if(key>=A[i][0] && key<A[i+1][0])
+        return    binaryfindColumn(A,key,i);
+    }
+      return  binaryfindColumn(A,key,nrow-1);
+    }
+    return false;
+    
+    }
+    
+    public static boolean binaryfindColumn(int [][]A,int key,int row){
+        int nrow=A.length;
+     int ncol=A[0].length;
+     
+      if(key>A[row][ncol-1])
+        return false; 
+     
+        int start=0;int end=ncol-1; int mid=0;
+        while(start<=end){
+            mid=start+(end-start)/2;
+            if(key==A[row][mid])
+                return true;
+            if(key>A[row][mid])
+                start=mid+1;
+            else
+                end=mid-1;
+            
+        }
+        
+        return false;
+    }
+
+}
