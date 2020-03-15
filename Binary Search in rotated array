@@ -1,0 +1,67 @@
+
+public class Main
+{
+   public static int binarySearch(int [] A,int start,int end,int elem){
+       int mid=0;
+       while(start<=end){
+           mid=start+(end-start)/2;
+           if(A[mid]==elem)
+            return mid;
+            
+           if(elem>A[mid])
+            start=mid+1;
+            
+            else
+                end=mid-1;
+       }
+       return -1;
+   }
+   
+   public static int searchInRotatedArray(int [] A,int key){
+       // find pivot
+       int i=0; int pivot=0;
+      pivot=findPivot(A);
+       if(pivot==0)
+        binarySearch(A,0,A.length-1,key); // if the array is not rotated
+       //right of pivot
+      int foundAtIndex= binarySearch(A,pivot+1,A.length-1,key);
+       if(foundAtIndex==-1)
+          foundAtIndex= binarySearch(A,0,pivot-1,key);
+       return foundAtIndex;
+       
+   }
+   
+   public  static int findPivot(int[] nums){
+		int length = nums.length;
+		if(length>1){
+			for(int i=0; i<length-1; i++){
+				if(nums[i]>nums[i+1]){
+					return i+1;
+				}
+			}
+			return 0;
+		}
+		return 0;
+	}
+
+
+
+
+
+	public static void main(String[] args) {
+//	int [] A={5, 6, 7, 8, 9, 10, 1, 2, 3};
+int [] A={1,3,5};
+	
+		int key=1;
+		int n=A.length;
+		
+	if(A[0]==key)
+		    System.out.println(0);
+		
+		System.out.println( searchInRotatedArray(A,key));
+	
+	
+//	System.out.println(findPivot(A));
+		
+	}
+}
