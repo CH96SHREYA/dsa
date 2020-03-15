@@ -1,0 +1,56 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+   public static int pow(int x, int n, int d) {
+    
+  long res = 1;
+    int check=0;
+    
+    if(x==0 && n==0){
+        if(d!=1){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    if(x==0){
+        return 0;
+    }
+    
+    if(x < 0){
+        x = x*-1;
+        if(n%2 != 0){
+            check = 1;
+        }
+    }
+    long a=x;
+    int b=n;
+    a = a % d;  
+    while (b> 0){ 
+        if((b & 1)==1){ 
+            res = (res * a) % d; 
+        }
+        b = b >> 1;  
+        a = (a * a) % d;  
+    } 
+    
+    if(check == 1){
+        return d-(int)res;
+    }
+    return (int)res; 
+}
+
+    
+    
+	public static void main(String[] args) {
+		System.out.println(pow(2,2,3));
+	}
+}
