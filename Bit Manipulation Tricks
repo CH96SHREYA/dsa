@@ -1,0 +1,69 @@
+x & (x-1) will clear the lowest set bit of x
+x & ~(x-1) extracts the lowest set bit of x (all others are clear). Pretty patterns when applied to a linear sequence.
+x & (x + (1 << n)) = x, with the run of set bits (possibly length 0) starting at bit n cleared.
+x & ~(x + (1 << n)) = the run of set bits (possibly length 0) in x, starting at bit n.
+x | (x + 1) = x with the lowest cleared bit set.
+x | ~(x + 1) = extracts the lowest cleared bit of x (all others are set).
+x | (x - (1 << n)) = x, with the run of cleared bits (possibly length 0) starting at bit n set.
+x | ~(x - (1 << n)) = the lowest run of cleared bits (possibly length 0) in x, starting at bit n are the only clear bits.
+
+
+
+
+
+1) Set the kth bit: y=x|(1<<k)
+      Bring 1 to the k th position and then OR it with the given no.
+2) Clear the k th bit: y=x &~(1<<k) 
+      Bring 0 to the k th position and then AND it with the given no.
+3) Toggle the k th bit: y=x^(1<<k)
+      x^0=x, x^1=~x
+
+4) Swap two integers
+      x=x^y  // creates a mask where x and y differ and store it in x
+      y=x^y  // toggle bits of y with that mask (y has value of x by now)
+      x=x^y  //  toggle bits of x (x==mask) and y== x org value
+      
+5) Minimum of two integers:        y^((x^y) &-(x<y))
+      If (x<y):
+          -(x<y)==-1 -> all bits 1
+          resulatant expression: y^(x^y)==x
+       If (x>y):
+          -(x<y)==0 -> all bits 0
+          resulatant expression: y^(0)==y
+
+6) Modular Addition 
+    Perform (x+y)%n     where 0<=x<n, 0<=y<n
+    Method 1:  z=x+y
+               r=(z<n)?z:z-n
+    
+    Method 2: z=x+y
+              r= z-(n &-(z<=n))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+      
