@@ -1,0 +1,19 @@
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int res=0;
+        for(int i=0;i<32;i++){
+            //to insert bit at the end of result it has to be left shifted
+            //then the bit from given no. is inserted using OR
+           res= res<<1 |(n&1);
+           n>>>=1;    
+        /*how this works is
+               a) Take the rightmost bit from n [n&1]
+               b)Create a space at the right by shifting the bits to the left [res<<1]
+               c)Insert the bit at the rightmost posn [OR]  
+               d) Right shift the given no.
+        */
+        } // 32 bits
+      return res;      
+    }
+}
