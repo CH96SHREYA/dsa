@@ -1,0 +1,35 @@
+/*
+1) The logic is to first create a look up table.
+2) Start from the right side
+3) Store the last char into a variable(int)
+4) Now if the prev Roman character is <= the character just right of it
+          subtract  it from the number
+        else
+           add it to the number
+*/
+
+
+
+public class Solution {
+    public int romanToInt(String A) {
+        HashMap<Character,Integer> romanValues=new HashMap<>();
+        romanValues.put('I',1);
+        romanValues.put('V',5);
+        romanValues.put('X',10); 
+        romanValues.put('L',50);
+        romanValues.put('C',100);
+        romanValues.put('D',500);
+        romanValues.put('M',1000);
+        
+        int num=romanValues.get(A.charAt(A.length()-1));
+        
+        for(int i=A.length()-2;i>=0;i--){
+            if(romanValues.get(A.charAt(i))>=romanValues.get(A.charAt(i+1)))
+              num+=  romanValues.get(A.charAt(i));
+             else
+            num-=  romanValues.get(A.charAt(i));
+        }
+        
+        return num;
+    }
+}
