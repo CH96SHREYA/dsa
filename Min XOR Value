@@ -1,0 +1,14 @@
+public class Solution {
+    public int findMinXor(int[] A) {
+        Arrays.sort(A);
+        int xor=A[0]; int xorMin=Integer.MAX_VALUE;
+        for(int i=0;i<A.length-1;i++){
+            xor=A[i]^A[i+1];
+            xorMin=Math.min(xorMin,xor);
+            
+        }
+        return xorMin;
+    }
+}
+
+// adjacent no. will have min xor
