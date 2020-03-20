@@ -1,0 +1,23 @@
+// If the string has equal no. of operands and '(' The string does not has redundant bits
+
+                           
+
+public class Main
+{
+
+    public static int braces(String A) {
+        int result=0;
+        for(int i=0;i<A.length();i++ ){
+            char ch=A.charAt(i);
+            if(ch=='(')
+                result++;
+            if(ch=='+'||ch=='-'||ch=='*'||ch=='/' && result>0)
+                result--;
+            
+        }
+        if(result>0)
+            return 1;
+        return 0;
+    }
+	
+}
