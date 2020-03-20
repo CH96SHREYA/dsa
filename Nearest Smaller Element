@@ -1,0 +1,27 @@
+public class Solution {
+    public int[] prevSmaller(int[] A) {
+        Stack<Integer> stack= new Stack<>();
+        int [] min=new int[A.length];
+        for(int i=0;i<A.length;i++){
+            if(!stack.isEmpty()){
+                
+                while(!stack.isEmpty() &&stack.peek()>=A[i]){
+                    stack.pop();
+                }
+                if(stack.isEmpty())
+                    min[i]=-1;
+                else
+                    min[i]=stack.peek();
+                stack.push(A[i]);
+            }
+            
+            
+            else{
+                min[i]=-1;
+                stack.push(A[i]);
+            }
+        }
+        
+       return min;
+    }
+}
