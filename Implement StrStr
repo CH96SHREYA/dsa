@@ -1,0 +1,78 @@
+public class Solution {
+    
+    // this again uses KMP Algorithm
+    
+    //FIrst create LPS Array
+    public static int [] lps;
+     public static void  createLPSArray(String pat){
+        int n=pat.length();
+        lps=new int[n];
+        lps[0]=0;
+        int i=1; //moves forward
+        int j=0; //moves back n forth
+        
+        while(i<n){
+            
+            if(pat.charAt(i)==pat.charAt(j)){
+                j++;
+                lps[i]=j;
+                i++;
+                
+            }
+             // if char do not match :
+            else{
+                if(j==0){ // if jis at the first pointer
+                    lps[i]=j;
+                    i++;
+                }
+                   
+                 else { // backtrack and continue the comparison      
+                     j=lps[j-1];
+                 }  
+            }
+            
+        }
+       
+    }
+    public int strStr(final String text, final String pat) {
+        if(text==null ||pat==null)
+            return 0;
+         createLPSArray(pat);
+        int i=0;int j=0;
+         int N=text.length();
+         int M=pat.length();
+         if(N==1 && M==1 )
+            {
+               if(text.charAt(i)==pat.charAt(j))
+                    return 0;
+                else
+                    return -1;
+            }
+         int val=0;
+         while(i<N){
+             if(j==M){
+                 
+               val= i-j;
+               j=lps[j-1];
+                if(val!=0)
+                    
+                 return val;
+             }
+             if(text.charAt(i)==pat.charAt(j)){
+                 i++;
+                 j++;
+             }
+             else{
+                 if(j==0)
+                    i++;
+                 else
+                    j=lps[j-1];
+             }
+             
+             
+         }
+         return -1;
+       
+    }
+    
+}
