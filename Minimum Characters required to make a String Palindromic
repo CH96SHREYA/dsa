@@ -1,0 +1,46 @@
+The idea is to concatenate the reverse of the string with a special character to the org string
+Then create lps array for it.
+Finally the min no. of characters req will the length of the org string-lps[last-1]
+
+
+public class Solution {
+    public int createLPSArray(String pat){
+        int n=pat.length();
+        int [] lps=new int[n];
+        lps[0]=0;
+        int i=1; //moves forward
+        int j=0; //moves back n forth
+        
+        while(i<n){
+            
+            if(pat.charAt(i)==pat.charAt(j)){
+                j++;
+                lps[i]=j;
+                i++;
+                
+            }
+             // if char do not match :
+            else{
+                if(j==0){ // if jis at the first pointer
+                    lps[i]=j;
+                    i++;
+                }
+                   
+                 else { // backtrack and continue the comparison      
+                     j=lps[j-1];
+                 }  
+            }
+            
+        }
+        return lps[lps.length-1];
+    }
+    public int solve(String pat) {
+        int n=pat.length();
+        StringBuffer buff=new StringBuffer(pat);
+	    buff.reverse();
+	   pat=pat+"$"+buff.toString();
+        
+        return n-createLPSArray(pat);
+        
+    }
+}
