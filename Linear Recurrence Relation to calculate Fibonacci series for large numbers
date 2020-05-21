@@ -1,0 +1,54 @@
+
+public class Main
+{   
+    public static int K=2;
+    public static int mod=1000000007;
+    
+	public static void main(String[] args) {
+	System.out.println(	fibonacci(4));
+	}
+	public static int [][] multiply(int [][]A,int[][]B){
+	    int [][] C=new int[K+1][K+1];
+	    for(int i=0;i<A.length;i++){
+	        for(int j=0;j<A.length;j++){
+	            for(int k=0;k<A.length;k++)
+	                C[i][j]+=A[i][k]*B[k][j] % mod;
+	        }
+	    }
+	    return C;
+	}
+	
+	public static int [][] power(int[][] A,int p){
+	   if(p==1)
+	     return A;
+	   if(p%2==1)
+	     return   multiply(A,power(A,p-1));
+	   int [][] X=power(A,p/2);
+	   return multiply(X,X);
+	}
+	
+	public static int fibonacci(int N){
+	    // Create an initial vector
+	    int [] F=new int[K+1];
+	    F[0]=1; F[1]=1;
+	    
+	    // Create transformation matrix
+	    int[][] T=new int[K+1][K+1];
+	    T[0][0]=0;
+	    T[0][1]=1;
+	    T[1][0]=1;
+	    T[1][1]=1;
+	    
+	    // raise T to (N-1)
+	    if(N==1)
+	        return 1;
+	   T=power(T,N-1);
+	   
+	   //result is first row of T . F
+	   int res=0;
+	   for(int i=0;i<K;i++)
+	    res = (res + T[1][i] * F[i]) % mod;
+        return res; 
+	       
+	}
+}
