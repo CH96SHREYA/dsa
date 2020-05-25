@@ -1,0 +1,53 @@
+*******************************************************************************/
+import java.io.*;
+import java.util.*;
+public class Main
+{
+     public static void swap(int i,int j,int [] A){
+         int temp=0;
+         temp=A[i];
+         A[i]=A[j];
+         A[j]=temp;
+     }
+     public static int partitionAlgo(int [] A,int a,int z){
+       int i=a-1;
+       for(int j=a;j<z;j++){
+           if(A[j]<A[z]){
+               i++;
+               swap(i,j,A);
+           }
+       }
+       swap(i+1,z,A);
+       return i+1;
+   } 
+   
+  public static void quickSort(int []A, int a,int z){
+      int x=0;
+      if(a<z){
+         x= partitionAlgo(A,a,z);
+         quickSort(A,a,x-1);
+         quickSort(A,x+1,z);
+      }
+     
+  }
+  
+   public static void printArray(int [] A){
+       for(int i=0;i<A.length;i++)
+        System.out.print(A[i]+" ");
+   }
+   
+  
+   
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		int n=Integer.parseInt(br.readLine());
+		int k=Integer.parseInt(br.readLine());
+		int [] A=new int[n];
+		for(int i=0;i<n;i++)
+		    A[i]=Integer.parseInt(br.readLine());
+		   
+		quickSort(A,0,A.length-1);
+		 printArray(A);
+		
+	}
+}
