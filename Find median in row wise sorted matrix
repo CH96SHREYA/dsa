@@ -1,0 +1,97 @@
+METHOD -1
+
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    public static int findTheMedian(int [][]A,int r,int c){
+        //Find min max then mid
+        //Find mid in the array
+        //if it exists or no. just greater than it count the no. of
+        //elements smaller than it in evry row add them to a variable that
+        //keeps count of total elements smaller than the mid in the array
+        //if no. is greater change the min to mid+1
+        //if smaller change the max to mid
+        //finally the answer is stored in min which is returned
+        
+       int min=Integer.MAX_VALUE;
+       int max =Integer.MIN_VALUE;
+        int mid=0;int place =0;int get=0;int desired=(r*c+1)/2;
+        for(int i=0;i<r;i++){
+            if(A[i][0]<min)
+                min=A[i][0];
+            if(A[i][c-1]>max)
+                max=A[i][c-1];
+        }
+        
+        while(min<max){
+            mid=min+(max-min)/2;
+            for(int i=0;i<r;i++){
+                place=0;get=0;
+                get=Arrays.binarySearch(A[i],mid);
+                if(get<0)
+                    get=Math.abs(get)-1;
+                else
+                    while(get<A[i].length && A[i][get]==mid)
+                        get++;
+               place+=get; 
+            }
+            //checking the element in all the rows
+            if(place<desired)
+                min=mid+1;
+            else
+                max=mid;
+        }
+        return min;
+        
+        
+    }
+	public static void main (String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+  
+        // taking input of number of testcase 
+        int t = Integer.parseInt(br.readLine()); 
+  
+        while (t-- > 0) { 
+            // n : size of array 
+             String line1= br.readLine(); 
+            String[] strs1 = line1.trim().split("\\s+"); 
+            int r = Integer.parseInt(strs1[0]); 
+            int c = Integer.parseInt(strs1[1]);
+           
+            // Declaring array 
+            int arr[][] = new int[r][c]; 
+  
+            // to read multiple integers line 
+             
+            
+            // array elements input 
+            for (int i = 0; i < r; i++) {
+                int k=0;
+                String line = br.readLine(); 
+                
+                for(int j=0;j<c;j++){
+                    String[] strs = line.trim().split("\\s+");
+                    if(k<strs.length)
+                    arr[i][j] = Integer.parseInt(strs[k++]); 
+                }
+            }
+            if(r==0||c==0||arr==null)
+            System.out.println("-1");
+        System.out.println(findTheMedian(arr,r,c));
+        }
+		
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                              METHOD-2
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+
+
+
