@@ -1,0 +1,38 @@
+////////////////////////////METHOD-1///////////////////////////////////////////////
+//uSING THE SORTED CONCEPT
+ public static int maxOnes(int [][] A,int r,int c){
+        int count=0; int max_count=0;int col=0;int i_ans=0;
+        for(int i=0;i<r;i++)
+            if(A[i][0]==1)
+                return i;
+        
+        for(int i=0;i<r;i++){
+            while(A[i][col]==0 && col<c)
+                col++;
+            count=c-col;
+            if(count>max_count){
+                max_count=count;
+                i_ans=i;
+            }
+            col=0;
+            count=0;
+        }
+        return i_ans;
+    }
+  /////////////////////////////////METHOD-2////////////////////////////////////////////////////// 
+  //USING THE SUM CONCEPT
+   public static void sum(int [][]arr, int r,int c){
+        int sumR=0;int sumT=0;int i_ans=0;
+            for (int i = 0; i < r; i++){
+              for(int j=0;j<c;j++){
+                sumR+=arr[i][j];
+               }// j
+              
+              if(sumT<sumR){
+                  sumT=sumR;
+                  i_ans=i;
+                } 
+                sumR=0;
+            }//i
+            System.out.println(i_ans);
+    }
