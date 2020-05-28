@@ -1,0 +1,41 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) throws IOException{
+	 BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+  
+        // taking input of number of testcase 
+        int t = Integer.parseInt(br.readLine()); 
+  
+        while (t-- > 0) { 
+            // n : size of array 
+            int n = Integer.parseInt(br.readLine()); 
+  
+            // Declaring array 
+            int arr[] = new int[n+2]; 
+  
+            // to read multiple integers line 
+            String line = br.readLine(); 
+            String[] strs = line.trim().split("\\s+"); 
+            int elem=0;
+            int count=0;
+            // array elements input 
+            for (int i = 0; i < strs.length; i++){ 
+                if(count==2)
+                    break;
+                elem = Integer.parseInt(strs[i]); 
+                if(arr[elem]!=0){
+                count++;
+                System.out.print(elem+ " ");
+                }
+                else
+                arr[elem]=elem;
+            }
+            System.out.println();
+	    }  
+	}
+}
