@@ -7,3 +7,18 @@
         System.out.println(sum-sum_arr);
         
     }
+    
+    
+//////////////////////////  First Repeating Element////////////////////////////////////
+public static int findFirstRepeat(int []A,int n){
+        int min=-2;
+        ArrayList<Integer> hash=new ArrayList<>();
+        for(int i=A.length-1;i>=0;i--){
+            if(hash.contains(A[i]))
+                min=i;
+            else
+                hash.add(A[i]);
+        }
+        
+        return min+1;
+    }
