@@ -22,3 +22,31 @@ public static int findFirstRepeat(int []A,int n){
         
         return min+1;
     }
+    
+//////////////////////////////Program to find the largest three elements in O(n) time and  O(1) space complexity/////////////
+public static  void findThree(int [] A){
+        int first=Integer.MIN_VALUE;
+        int second=Integer.MIN_VALUE;
+        int third=Integer.MIN_VALUE;
+        
+        for(int i=0;i<A.length;i++){
+            if(A[i]>first){
+                third=second;
+                second=first;
+                first=A[i];
+            }
+             else if(A[i]>second){
+                 third=second;
+                 second=A[i];
+             }
+             
+             else if(A[i]>third)
+                third=A[i];
+             
+             else
+                continue;
+        }
+        
+        System.out.println("first: "+ first +" second: "+second+" third: "+third);
+        
+    }
