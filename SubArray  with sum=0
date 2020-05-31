@@ -1,0 +1,41 @@
+//////////////////////////////METHOD-1///////////////////////////////
+public static int  subArray(int []A){
+        int sum=0;int found=0;int j=0;
+        for(int i=0;i<A.length;i++){
+           /* if(A[i]==0)
+                return 1; */
+            sum=A[i];
+            for(j=i+1;j<=A.length;j++){
+            
+                if(sum==0)
+                    return 1;
+                if(j==A.length){
+                    System.out.println("j is n"+ A[j-1]+sum);
+                    break;
+                }
+                    
+                sum+=A[j];
+            }
+           System.out.println("i = "+ i + " j = "+(j-1)+ "-->"+sum);
+        }
+        return 0;
+    }
+    
+  ////////////////////////////METHOD-2//////////////////////////
+  USING HASHING
+  
+  public static int subArray1(int [] A){
+        HashSet<Integer> hash=new HashSet<>();
+        int sum=0;
+        
+        for(int i=0;i<A.length;i++){
+            sum+=A[i];
+            
+            if(sum==0 || A[i]==0 || hash.contains(sum))
+                return 1;
+            hash.add(sum);
+        }
+        return 0;
+    }
+  
+  
