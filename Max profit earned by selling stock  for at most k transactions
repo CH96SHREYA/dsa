@@ -1,0 +1,36 @@
+
+
+public class Main
+{
+    public static int  stockProfit(int []A, int n, int k1){
+        int maxd=0; int k=0;
+        int [][]T=new int[n][k1+1];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=k1;j++){
+                if(i==0 || j==0){
+                    T[i][j]=0;
+                    continue;
+                }
+                
+                if(maxd<T[i-1][j])  // not selling at the i th price 
+                    maxd=T[i-1][j];
+                
+                for( k=i-2;k>=0;k--){    //selling at the i th price
+                 if(maxd<(T[k][j-1]+A[i]-A[k+1]))
+                        maxd=T[k][j-1]+A[i]-A[k+1];
+                }       
+                if(maxd<A[i]-A[0])
+                    maxd=A[i]-A[0];
+                    
+                    
+                T[i][j]=maxd;
+            }
+        }
+        return T[n-1][k1];
+    }
+	public static void main(String[] args) {
+		int [] A={100,180,260,310,40,535,95};
+		int k=2;
+		System.out.println(stockProfit(A,A.length,k));
+	}
+}
