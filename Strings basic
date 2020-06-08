@@ -1,0 +1,19 @@
+////////////////////////////// Count Frequency of every character///////////////////////////////////////////
+ public static  void countHashMap(String word){
+       word=word.toLowerCase();
+       HashMap<Character,Integer> hash= new HashMap<Character, Integer>();
+       
+       for(int i=0;i<word.length();i++){
+           Character ch=word.charAt(i);
+           
+           if(hash.containsKey(ch))
+                // increment the value
+                hash.put(ch,hash.get(ch)+1);
+            else
+                hash.put(ch,1);
+       }
+       
+       for(Map.Entry entry: hash.entrySet())
+            System.out.println(entry.getKey()+" "+entry.getValue());
+   } 
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
