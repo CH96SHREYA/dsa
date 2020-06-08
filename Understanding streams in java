@@ -1,0 +1,39 @@
+
+import java.util.stream.*;
+import java.util.*;
+public class Main
+{   
+    public static void understandStream( ){
+        // 1) map()
+        List <Integer> number= Arrays.asList(2,3,5,7,9);
+        List square=number.stream().map(x->x*x).collect(Collectors.toList());
+        System.out.println(square);
+        
+        // 2) filter()
+        List <String> name =Arrays.asList("Reflection","Collection","Stream");
+        List result=name.stream().filter(s->s.startsWith("S")).collect(Collectors.toList());
+        System.out.println(result);
+        
+        // 3) sorted()
+        List sorted=name.stream().sorted().collect(Collectors.toList());
+        System.out.println(sorted);
+        
+        // 4) forEach()
+            number.stream().forEach(y->System.out.print(y + " " ));
+           System.out.println();
+        // 5) reduce()
+             int even=number.stream().filter(x->x%2==0).reduce(0,(ans,i)->ans+i);
+             System.out.print(even);
+    }
+    
+      public static void countStream(String word,char ch){
+           word=word.toLowerCase();
+           long count=word.chars().filter(c->c==ch).count();
+           System.out.println(ch+" "+ count);
+       }
+       
+	   public static void main(String[] args) {
+		understandStream();
+		countStream("Lilliput",'l');
+     	}
+}
