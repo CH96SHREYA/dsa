@@ -1,0 +1,39 @@
+
+
+public class Main
+{
+	public static int findSquareRoot(int n){
+	    if(n==0||n==1)
+	        return n;
+	   int i=1;int res=1;
+	   while(res<=n){
+	       i++;
+	       res=i*i;
+	   }
+	   return i-1;
+	}
+	
+	///////////////////////  METHOD-2 Using Binary Search///////////////////////
+	public static float squreRoot2(int n){
+	    float start=0; float end=n/2;
+	    float mid=0;float ans=0;
+	    while(start<=end){
+	        mid=(start+end)/2;
+	        if(mid*mid==n)
+	            return mid;
+	        else if(mid*mid<n){
+	            start=(int)mid+1;
+	            ans=mid;
+	        }
+	        
+	        else
+	            end=(int)mid-1;
+	    }
+	    return ans;
+	}
+	public static void main(String[] args) {
+		System.out.println(findSquareRoot(30));
+		System.out.println(squreRoot2(30));
+		System.out.println(Math.sqrt(30));
+	}
+}
