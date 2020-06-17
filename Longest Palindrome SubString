@@ -1,0 +1,25 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null ||s.length()<1)
+            return "";
+        int start=0;int end=0; //store the boundary of palindrome
+        for(int i=0;i<s.length();i++){
+           int len1= expandAroundCentre(s,i,i); // handle case of racecar
+           int len2= expandAroundCentre(s,i,i+1); // handle case of abba
+            int len=Math.max(len1,len2);          //whichever case works max value is stored here
+            if(len>end-start){
+                start=i-(len-1)/2;                //set the start 
+                end=i+len/2;                      //set the end
+            }            
+        }
+        return s.substring(start,end+1);          //end+1 is imp  
+    }
+    public int expandAroundCentre(String s, int L, int R){
+        
+        while(L>=0 && R<s.length() && s.charAt(L)==s.charAt(R)){
+            L--;
+            R++;
+        }
+        return R-L-1;
+    }
+}
