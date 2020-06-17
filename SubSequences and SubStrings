@@ -1,0 +1,45 @@
+/******************************************************************************
+Printing subsequence and substrings of a given string 
+There are n*(n+1)/2 substrings : continuous characters
+There are 2^n subsequence. : same order, characters are missing
+All subsequence are substrings.
+
+String: abcd
+Subsequnece: acd
+subarray/substring: abc                        
+
+*******************************************************************************/
+
+public class Main
+{
+	//Print subsequence using power set . There will be 2^n patterns
+	
+	public static void printSubSequences(String str){
+        int n=str.length();	  
+	    for(int i=1;i<(1<<n);i++){
+	        for(int j=0;j<n;j++){
+	            if((i&(1<<j))>0)
+	                System.out.print(str.charAt(j));
+	        }
+	       System.out.println();
+	    }
+	}
+	
+	//Print substrings
+	public static void printSubString(String str){
+	    int n=str.length();
+	    for(int i=0;i<n;i++){
+	        for(int j=n;j>i;j--)
+	            System.out.println(str.substring(i,j));
+	    }
+	}
+	
+	public static void main(String[] args) {
+		String s="abcd";
+		System.out.println("The subsequences are:");
+		printSubSequences(s);
+		System.out.println("The substrings are:");
+		printSubString(s);
+		
+	}
+}
