@@ -1,0 +1,63 @@
+class Solution {
+     /*linelength: stores the no. of characters including space in each line-stores len(word[i])
+         We use two pointers i and j.
+         calculate  if len(linelength)+len(word[j])+spaces b/w words<=maxWidth
+                        add the word into the line
+                    else
+                        add spaces based on justification
+                        1)Left justification- when single word is there in the line or it is last line
+                        2)Middle justified for others
+                        
+                    Left justified means all the extra spaces are to be appended at the end
+                    Middle justified means all the extra spaces are to be added to the left in case of non-uniform distribution 
+            */
+        
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result=new ArrayList<>();
+       int i=0; int n=words.length;
+        while(i<n){
+            int j=i+1;
+            int linelength=words[i].length();
+            // this calculates the no. of char that can be added on the current line
+            while(j<n && (linelength+words[j].length()+(j-i-1)<maxWidth)){     
+                linelength+=words[j].length();
+                j++;
+            }
+            int diff=maxWidth-linelength; //no. of spaces that are req
+            int numberOfWords=j-i;   //no. of words in this line
+            
+            if(numberOfWords==1 || j>=n) //
+                result.add(leftJustify(words,diff,i,j));
+            else
+                result.add(middleJustify(words,diff,i,j));
+            i=j; //set i after the words that are already added
+            
+        }  
+         return result; 
+    }
+    
+    public String leftJustify(String[] words ,int diff,int i,int j){
+        int spacesOnRight=diff-(j-i-1);
+        StringBuilder result=new StringBuilder(words[i]);
+        for(int k=i+1;k<j;k++){
+           result.append(" "+words[k]); 
+        }
+        result.append(" ".repeat(spacesOnRight));
+        return result.toString();
+    }
+    
+    public String middleJustify(String[] words ,int diff,int i,int j){
+        int spacesNeeded=j-i-1; //Stores the sections where spaces are to be applied
+        int spaces= diff/spacesNeeded; //min spaces to be applied b/w each word
+        int extraSpaces=diff%spacesNeeded; //extra space to apply for distribution
+        
+        StringBuilder result=new StringBuilder(words[i]);
+        for(int k=i+1;k<j;k++){
+            int spacesToApply=spaces+(extraSpaces-- >0?1:0);
+           result.append(" ".repeat(spacesToApply)+words[k]); 
+        }
+        return result.toString();
+        
+    }
+    
+}
