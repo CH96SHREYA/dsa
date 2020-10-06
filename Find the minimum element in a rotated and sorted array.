@@ -1,0 +1,26 @@
+public static int findSmallestRotatedSorted(int [] A) {
+		if (A.length==1||A==null)
+			return -1;
+		if(A[A.length-1]>A[0])
+			return A[0];
+		int left=0, right=A.length-1, mid=0;		
+		
+		while(left<=right) {
+			mid=((right-left)/2)+left;
+			if(A[mid]<A[mid-1])
+				return A[mid];
+			if(A[mid]>A[mid+1])
+				return A[mid+1];
+			
+			if(A[mid]>A[0]) // search in right
+				left=mid+1;
+			else             //search in left
+				right=mid-1;
+			
+		}
+		
+		return -1;
+	}
+  
+  
+  //leetcode
