@@ -1,0 +1,490 @@
+package reviseDSA;
+
+import java.util.Stack;
+
+public class LinkedList {
+
+	Node head;
+     static Stack <Integer> res=new Stack<>();
+	static class Node {
+		int data;
+		Node next;
+
+		Node(int d) {
+			data = d;
+			next = null;
+		}
+	}
+
+	public static Node createNewNode(int d) {
+		Node node = new Node(d);
+		return node;
+	}
+
+	public static void traverseList(Node head) {
+		Node temp = head;
+		while (temp != null) {
+			System.out.print(temp.data + " ");
+			temp = temp.next;
+		}
+	}
+
+	public static Node addAtBeg(Node head, Node nodeToAdd) {
+		nodeToAdd.next = head;
+		head = nodeToAdd;
+
+		return head;
+	}
+
+	public static void addAtEnd(Node head, Node nodeToAdd) {
+		Node temp = head;
+		while (temp.next != null)
+			temp = temp.next;
+		temp.next = nodeToAdd;
+	}
+
+	public static int lengthOfList(Node head) {
+		int length = 0;
+		if (head == null)
+			return 0;
+
+		Node temp = head;
+		while (temp != null) {
+			length++;
+			temp = temp.next;
+		}
+
+		return length;
+	}
+
+	public static boolean findElement(Node head, int data) {
+
+		Node temp = head;
+		while (temp != null) {
+			if (temp.data == data)
+				return true;
+			temp = temp.next;
+		}
+
+		return false;
+
+	}
+
+	public static void deleteNode(Node head, int data) {
+		Node temp = head;
+		Node prev = head;
+
+		while (temp != null) {
+			if (temp.data == data) {
+				prev.next = temp.next;
+			}
+			prev = temp;
+			temp = temp.next;
+		}
+		System.out.println("After deletion:");
+		traverseList(head);
+	}
+
+	public static int printNnode(Node head, int N) {
+		Node temp = head;
+		int i = 1;
+		while (temp != null) {
+			if (i == N)
+				return temp.data;
+			i++;
+			temp = temp.next;
+		}
+		return -1;
+
+	}
+
+	public static int convertToCircular(Node head) {
+		Node temp = head;
+		while (temp.next != null)
+			temp = temp.next;
+		temp.next = head;
+		return temp.next.data;
+
+	}
+
+	public static int getNnodeFromEnd(Node head, int N) {
+		Node temp = head;
+		int startN = lengthOfList(head) - N + 1;
+		return printNnode(head, startN);
+
+	}
+
+	public static boolean isPalindrome(Node left, Node right) {
+
+		// base case
+		if (right == null)
+			return true;
+		boolean isPalin = isPalindrome(left, right.next);
+
+		if (isPalin == false)
+			return false;
+		boolean isThisPalin = (left.data == right.data);
+		left = left.next;
+		return isThisPalin;
+
+	}
+
+	public static Node reverseList(Node head) {
+
+		Node curr = head, back = null, forw = null;
+
+		while (curr != null) {
+			forw = curr.next;
+			curr.next = back;
+			back = curr;
+			curr = forw;
+		}
+		return back;
+
+	}
+
+	/*
+	 * --> The idea is to reach the last node using the base condition. -->Now this
+	 * last * node is actually the head of the reversed list. --> So pass this
+	 * through the recursive stack --> then append the head to the received list and
+	 * set head. next to null
+	 */
+	public static Node recurReverse(Node head) {
+
+		if (head == null || head.next == null)
+			return head;
+		Node rest = recurReverse(head.next);
+		head.next.next = head;
+		head.next = null;
+
+		return rest;
+
+	}
+
+	public static Node reverseK(Node head, int K) {
+		Node back = null, curr = head, forw = null;
+		int count = 0;
+		// reverse the nodes
+		while (count < K && curr != null) {
+			forw = curr.next;
+			curr.next = back;
+			back = curr;
+			curr = forw;
+			count++;
+		}
+		if (forw != null)
+			head.next = reverseK(forw, K);
+
+		return back;
+
+	}
+
+	public static Node moveThelastNode(Node head) {
+		Node curr = head, back = null;
+
+		while (curr.next != null) {
+			back = curr;
+			curr = curr.next;
+		}
+		curr.next = head;
+		back.next = null;
+		head = curr;
+		return head;
+	}
+
+	public static Node detectLoop(Node head) {
+		Node slow = head, fast = head;
+		while (slow != null && fast != null & fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+			if (slow == fast)
+				return slow;
+		}
+		return null;
+
+	}
+
+	public static void removeDuplicate(Node head) {
+		Node curr = head;
+		while (curr != null) {
+			Node temp = curr;
+			while (temp != null && temp.data == curr.data)
+				temp = temp.next;
+			curr.next = temp;
+			curr = curr.next;
+		}
+	}
+
+	public static void intersectionOfLinkedList(Node head1, Node head2) {
+		Node t1 = head1, t2 = head2;
+		while (t1 != null && t2 != null) {
+			if (t1.data < t2.data)
+				t1 = t1.next;
+			else if (t1.data == t2.data) {
+				System.out.print(t1.data + "  ");
+				t1 = t1.next;
+				t2 = t2.next;
+			} else
+				t2 = t2.next;
+		}
+	}
+
+	public static Node findIntersectionPoint(Node headA, Node headB) {
+
+		Node p1 = headA;
+		Node p2 = headB;
+
+		while (p1 != p2) {
+
+			p1 = p1.next;
+			p2 = p2.next;
+			if (p1 == p2)
+				return p1;
+			if (p1 == null)
+				p1 = headB;
+			if (p2 == null)
+				p2 = headA;
+
+		}
+		return null;
+	}
+
+	public static Node mergeSortedList(Node head1, Node head2) {
+		Node p1 = head1, p2 = head2;
+		Node temp = new Node(0);
+		Node curr = temp;
+		if (head1 == null || head2 == null)
+			return null;
+		while (p1 != null && p2 != null) {
+			if (p1.data <= p2.data) {
+				curr.next = p1;
+				p1 = p1.next;
+
+			} else {
+				curr.next = p2;
+				p2 = p2.next;
+			}
+			curr = curr.next;
+
+		}
+
+		while (p1 != null) {
+			curr.next = p1;
+			p1 = p1.next;
+			curr = curr.next;
+		}
+		while (p2 != null) {
+			curr.next = p2;
+			p2 = p2.next;
+			curr = curr.next;
+		}
+
+		return temp.next;
+	}
+
+	public static Node findMiddle(Node head) {
+		if (head == null || head.next == null)
+			return head;
+		Node slow = head, fast = head, temp = head;
+		while (fast != null && fast.next != null) {
+			temp = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		return temp;
+	}
+
+	public static Node splitLinkedList(Node head) {
+		if (head == null || head.next == null)
+			return head;
+		Node slow = head, fast = head, temp = head;
+		while (fast != null && fast.next != null) {
+			temp = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		temp.next = null;
+		Node left = splitLinkedList(head);
+		Node right = splitLinkedList(slow);
+
+		return mergeSortedList(left, right);
+
+	}
+
+	public static Node addOne(Node head) {
+		Node curr = head, last = null;
+		// Find the last no!=9
+		// curr stores last
+
+		while (curr.next != null) {
+			if (curr.data != 9)
+				last = curr;
+			curr = curr.next;
+		}
+
+		// if all 9 -> last will never change.
+		// add a 1 in beg and set others to 0
+		if (last == null) {
+			Node temp = head;
+			while (temp != null) {
+				temp.data = 0;
+				temp = temp.next;
+			}
+			Node node = createNewNode(1);
+			node.next = head;
+			head = node;
+		}
+
+		// if no 9
+
+		if (last != null && curr.data != 9)
+			curr.data++;
+
+		/*
+		 * if last digit is 9
+		 * 
+		 * if(last!=null && curr.data==9) // { // last.data++; // curr.data=0; // }
+		 * 
+		 */
+		// 9 at the end
+		last.data++;
+		last = last.next;
+		while (last != null) {
+			last.data = 0;
+			last = last.next;
+		}
+
+		return head;
+	}
+	
+	
+	public static int addSameLength(Node head1, Node head2) {
+		
+		Node p1=head1, p2=head2;
+		
+		if(p1==null)
+			return 0;
+		int carry=addSameLength(p1.next,p2.next);
+		int sum =p1.data+p2.data+carry;		
+		res.push(sum%10);
+		return sum/10;
+		
+	}
+	public static Node appendZero(Node head,int count) {
+		while(count>0) {
+			Node node=new Node(0);
+			head=addAtBeg(head,node);
+			count--;
+		}
+				
+		return head;
+	}
+	
+	public static void  addNodes(Node head1,Node head2) {	
+		int len1=lengthOfList(head1);
+		int len2=lengthOfList(head2);
+		if(len1>len2)
+			head2= appendZero(head2,len1-len2);
+		if(len2>len1)
+			head1= appendZero(head1,len2-len1);
+		
+		int carry=addSameLength(head1,head2);
+		if(head1.data+head2.data+carry>9)
+			res.push(1);	
+		printSum();
+	}
+	
+	public static void printSum() {
+		
+		while(!res.isEmpty())
+			
+		  System.out.print(res.pop());
+		
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void main(String[] args) {
+
+		/*
+		 * LinkedList linkedList=new LinkedList(); linkedList.head=new Node(1);
+		 * addAtEnd(linkedList.head,createNewNode(20));
+		 * addAtEnd(linkedList.head,createNewNode(30));
+		 * addAtEnd(linkedList.head,createNewNode(55));
+		 * addAtEnd(linkedList.head,createNewNode(80));
+		 * addAtEnd(linkedList.head,createNewNode(25));
+		 * addAtEnd(linkedList.head,createNewNode(38));
+		 * addAtEnd(linkedList.head,createNewNode(40));
+		 * addAtEnd(linkedList.head,createNewNode(61)); traverseList(linkedList.head);
+		 * System.out.println();
+		 */
+
+		
+		  LinkedList linkedList1=new LinkedList(); 
+		  linkedList1.head=new Node(8);
+		  addAtEnd(linkedList1.head,createNewNode(4));
+		  addAtEnd(linkedList1.head,createNewNode(2));
+		  //addAtEnd(linkedList1.head,createNewNode(40));
+		  //addAtEnd(linkedList1.head,createNewNode(61));
+		 
+
+		/*
+		 * linkedList.head=splitLinkedList(linkedList.head);
+		 * traverseList(linkedList.head);
+		 */
+		// System.out.println(findMiddle(linkedList.head).data);
+
+		// linkedList1.head=mergeSortedList(linkedList.head,linkedList1.head);
+		// traverseList(linkedList1.head);
+
+		// intersectionOfLinkedList(linkedList.head,linkedList1.head);
+
+		/*
+		 * Node first=new Node(2); Node second=new Node(3); linkedList.head.next=first;
+		 * first.next=second;
+		 */
+		/*
+		 * //System.out.println("Created node with data: "+createNewNode(4).data);
+		 * //linkedList.head=addAtBeg(linkedList.head,createNewNode(5));
+		 * addAtEnd(linkedList.head,createNewNode(2)); traverseList(linkedList.head);
+		 * System.out.println("------------------------");
+		 * //System.out.println("Length: "+lengthOfList(linkedList.head));
+		 * System.out.println("------------------------");
+		 * //System.out.println(findElement(linkedList.head,12));
+		 * System.out.println("------------------------");
+		 * //deleteNode(linkedList.head,2);
+		 * System.out.println("--------------------------");
+		 * //System.out.println(printNnode(linkedList.head,4));
+		 * addAtEnd(linkedList.head,createNewNode(2));
+		 * addAtEnd(linkedList.head,createNewNode(5));
+		 * addAtEnd(linkedList.head,createNewNode(6)); traverseList(linkedList.head);
+		 * System.out.println("--------------------------");
+		 * //System.out.println("Converted to circular: "+convertToCircular(linkedList.
+		 * head)); //System.out.println(getNnodeFromEnd(linkedList.head,3));
+		 * System.out.println("--------------------------");
+		 * //System.out.println(isPalindrome(head,head));
+		 * //linkedList.head=reverseK(linkedList.head,3); //linkedList.head=
+		 * moveThelastNode(linkedList.head); //traverseList(linkedList.head);
+		 * //removeDuplicate(linkedList.head); //traverseList(linkedList.head);
+		 */
+
+		LinkedList linkedList2 = new LinkedList();
+		linkedList2.head = new Node(9);
+		addAtEnd(linkedList2.head, createNewNode(9));
+		addAtEnd(linkedList2.head, createNewNode(9));
+		addAtEnd(linkedList2.head, createNewNode(9));
+		 addAtEnd(linkedList2.head,createNewNode(9));
+		/*
+		 * traverseList(linkedList2.head); System.out.println(); linkedList2.head =
+		 * addOne(linkedList2.head); traverseList(linkedList2.head);
+		 */
+		/*
+		 * linkedList1.head=appendZero(linkedList1.head,2);
+		 * traverseList(linkedList1.head);
+		 */
+		
+		  addNodes(linkedList1.head,linkedList2.head); System.out.println();
+		  printSum();
+		 
+	}
+
+}
