@@ -1,0 +1,474 @@
+package reviseDSA;
+
+import java.util.Stack;
+
+public class PractiseStack {
+
+	int top;
+	static final int MAX = 1000;
+	int[] A = new int[MAX];
+
+	public PractiseStack() {
+		top = -1;
+	}
+
+	public boolean isEmpty() {
+		if (top == -1)
+			return true;
+		return false;
+	}
+
+	public boolean push(int val) {
+		if (top >= (MAX - 1))
+			return false;
+		A[++top] = val;
+
+		return true;
+	}
+
+	public int pop() {
+		while (top != -1) {
+			return A[top--];
+		}
+		return Integer.MAX_VALUE;
+	}
+
+	public int peek() {
+		if (top != -1) {
+			return A[top];
+		}
+		return Integer.MAX_VALUE;
+	}
+
+	public int validParanthesis(String s) {
+		if (s == null)
+			return -1;
+
+		Stack<Character> stack = new Stack<>();
+		char ch = ' ';
+		int count = 0;
+		for (int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+
+			if (ch == '(' || ch == '{' || ch == '[')
+				stack.push(ch);
+
+			else if (ch == ')' && !stack.isEmpty() && stack.peek() == '(')
+				stack.pop();
+			else if (ch == ']' && !stack.isEmpty() && stack.peek() == '[')
+				stack.pop();
+			else if (ch == '}' && !stack.isEmpty() && stack.peek() == '{')
+				stack.pop();
+			else
+				count++;
+		}
+		return stack.size();
+	}
+
+	public String removeParanthesis(String s) {
+		Stack<Character> stack = new Stack<>();
+		String res = "";
+		char ch = ' ';
+		for (int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+			if (ch != '(' || ch != ')')
+				stack.push(ch);
+			else
+				while (!stack.empty())
+					res += stack.pop();
+		}
+		while (!stack.empty())
+			res += stack.pop();
+		return res;
+	}
+
+	public String simplifyExpression(String s) {
+
+		Stack<Integer> stack = new Stack<>();
+		stack.push(0);
+		int i = 0, k = 0;
+		char[] res = new char[s.length()];
+		char ch = ' ';
+		while (i < s.length()) {
+			ch = s.charAt(i);
+			if (ch == '+') {
+				if (stack.peek() == 1)
+					res[k++] = '-';
+				else
+					res[k++] = '+';
+			}
+
+			else if (ch == '-') {
+				if (stack.peek() == 1)
+					res[k++] = '+';
+				else
+					res[k++] = '-';
+			}
+
+			else if (ch == '(' && i > 0) {
+				if (s.charAt(i - 1) == '-') {
+					int x = (stack.peek() == 1) ? 0 : 1;
+					stack.push(x);
+				}
+
+				else if (s.charAt(i - 1) == '+')
+					stack.push(stack.peek());
+			} else if (ch == ')')
+				stack.pop();
+			else
+				res[k++] = s.charAt(i);
+			i++;
+		}
+		return String.valueOf(res);
+
+	}
+
+	public int[] smallestOnLeft(int[] A) {
+		Stack<Integer> S = new Stack<>();
+		int[] res = new int[A.length];
+
+		for (int i = 0; i < A.length; i++) {
+
+			while (!S.empty() && S.peek() >= A[i])
+				S.pop();
+
+			if (!S.empty())
+				res[i] = S.peek();
+			else
+				res[i] = 0;
+			S.push(A[i]);
+		}
+
+		return res;
+	}
+
+	public void reverse(int[] A) {
+		int left = 0, right = A.length - 1, temp = 0;
+		while (left < right) {
+			temp = A[left];
+			A[left] = A[right];
+			A[right] = temp;
+			left++;
+			right--;
+		}
+	}
+
+	public int[] largestOnRight(int[] A) {
+		reverse(A);
+		return smallestOnLeft(A);
+	}
+
+	public int maxDifference(int[] A) {
+		int[] L = smallestOnLeft(A);
+		int[] R = largestOnRight(A);
+		int diff = 0;
+		int n = L.length;
+		for (int i = 0; i < L.length; i++) {
+			diff = Math.max(diff, Math.abs((L[i] - R[n - i - 1])));
+		}
+		return diff;
+	}
+
+// Program to check redundant braces
+	public boolean hasRedundantBraces(String s) {
+
+		Stack<Character> stack = new Stack<>();
+		char ch = ' ';
+		int operator = 0;
+		for (int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+
+			if (ch == ')') {
+				if (stack.peek() == '(')
+					return true;
+				while (stack.peek() != '(') {
+					int elem = stack.peek();
+					if (elem == '+' || elem == '-' || elem == '*' || elem == '/')
+						operator++;
+					stack.pop();
+				}
+				stack.pop();
+				if (operator == 0)
+					return true;
+
+			} else
+				stack.push(ch);
+		}
+
+		return false;
+	}
+
+	public int countReverse(String s) {
+		Stack<Character> stack = new Stack<>();
+		int red_len = 0;
+		char ch = ' ';
+		for (int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+
+			if (ch == '{' && !s.isEmpty()) {
+				if (stack.peek() == '}')
+					stack.pop();
+				else
+					stack.push(ch);
+			}
+
+			else
+				stack.push(ch);
+		}
+
+		red_len = stack.size();
+
+		int n = 0;
+		while (!stack.isEmpty() && stack.peek() == '{') {
+			n++;
+			stack.pop();
+		}
+
+		return (n % 2 + red_len / 2);
+
+	}
+
+	// Find the next greater element
+	public void nextGreater(int[] A) {
+		Stack<Integer> stack = new Stack<>();
+		stack.push(A[0]);
+
+		int next = 0;
+		int elem = 0;
+
+		for (int i = 1; i < A.length; i++) {
+			next = A[i];
+
+			while (!stack.isEmpty() && next > stack.peek()) {
+				elem = stack.pop();
+				System.out.println(elem + "--> " + next);
+
+			}
+			stack.push(next);
+		}
+
+		while (!stack.isEmpty()) {
+			elem = stack.pop();
+			System.out.println(elem + "--> " + -1);
+
+		}
+
+	}
+
+	public int comparePriority(char ch) {
+
+		switch (ch) {
+		case '^':
+			return 3;
+		case '*':
+			return 2;
+		case '/':
+			return 2;
+		case '+':
+			return 1;
+		case '-':
+			return 1;
+
+		}
+
+		return -1;
+	}
+
+	// required priority comparator
+	public String converToPostfix(String s) {
+		Stack<Character> stack = new Stack<>();
+		String res = "";
+		char ch = ' ';
+		for (int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+
+			// 1) If operand add to res.
+
+			// 2) If ( push to stack
+			if (ch == '(')
+				stack.push(ch);
+
+			// 3) If +*/-^ pop the operators with priority>= ch till ( is found.
+
+			else if (ch == '^' || ch == '/' || ch == '*' || ch == '+' || ch == '-') {
+				while (!stack.isEmpty() && !(stack.peek() == '(')
+						&& (comparePriority(stack.peek()) >= comparePriority(ch)))
+					res += stack.pop();
+				stack.push(ch);
+			}
+
+			// 4) If ) pop till (. Also pop the(.
+			else if (ch == ')') {
+				while (!stack.isEmpty() && !(stack.peek() == '('))
+					res += stack.pop();
+				stack.pop();
+			}
+
+			else
+				res += ch;
+
+		}
+		// 5) pop the remaining operands
+		while (!stack.isEmpty())
+			res += stack.pop();
+
+		return res;
+
+	}
+
+	public int performOperation(int A, int B, char operator) {
+		switch (operator) {
+
+		case '+':
+			return (A + B);
+		case '-':
+			return (A - B);
+		case '*':
+			return (A * B);
+		case '/':
+			return (A / B);
+		case '^':
+			return (A ^ B);
+
+		}
+		return -1;
+	}
+
+	public int expressionEvaluate(String s) {
+
+		Stack<Integer> stack = new Stack<>();
+		char ch = ' ';
+		// convert to postfix
+		s = converToPostfix(s).replaceAll("\\s", "");
+
+		for (int i = 0; i < s.length(); i++) {
+
+			ch = s.charAt(i);
+
+			// 1) +*/-^ pop two no. from stack . Evaluate. push back to stack
+			if (ch == '^' || ch == '/' || ch == '*' || ch == '+' || ch == '-') {
+
+				// pop two no.
+				int A = stack.pop();
+				int B = stack.pop();
+				// perform operation and push result to stack
+				int res = performOperation(A, B, ch);
+				stack.push(res);
+
+			}
+			// 2) if no. // then convert to in then push to the stack
+			else
+				stack.push(Character.getNumericValue(ch));
+		}
+
+		return stack.peek();
+
+	}
+
+	public void insert_at_end(Stack<Integer> stack, int elem) {
+		// base condition.
+		if (stack.isEmpty()) {
+			stack.push(elem);
+			return;
+		}
+		int a = stack.pop();
+		insert_at_end(stack, elem);
+		stack.push(a);
+
+		return;
+
+	}
+
+	public void reverseStack(Stack<Integer> stack) {
+		if (stack.size() == 1)
+			return;
+		int temp = stack.pop();
+		reverseStack(stack);
+		insert_at_end(stack, temp);
+		return;
+
+	}
+
+	public void insertSortStack(Stack<Integer> stack, int elem) {
+		if (stack.isEmpty() || elem > stack.peek()) {
+			stack.push(elem);
+			return;
+		}
+		int temp = stack.pop();
+		insertSortStack(stack, elem);
+		stack.push(temp);
+		return;
+	}
+
+	public void sortStack(Stack<Integer> stack) {
+		if (stack.size() == 1)
+			return;
+		int elem = stack.pop();
+		sortStack(stack);
+		insertSortStack(stack, elem);
+
+	}
+
+	public int findCelebrity(int[][] A) {
+		Stack<Integer> stack = new Stack<>();
+		int celeb = -1;
+		int N = A.length;
+		for (int i = 0; i < N; i++)
+			stack.push(i);
+
+		while (stack.size() != 1) {
+			int X = stack.pop();
+			int Y = stack.pop();
+			if (A[X][Y] == 1)
+				stack.push(Y);
+			else
+				stack.push(X);
+		}
+		celeb = stack.peek();
+
+		for (int j = 0; j < N; j++)
+			if (j != celeb && A[celeb][j] == 1)
+				return -1;
+
+		for (int j = 0; j < N; j++)
+			if (j != celeb && A[j][celeb] == 0)
+				return -1;
+
+		return celeb;
+
+	}
+
+	public static void main(String[] args) {
+
+		PractiseStack stack = new PractiseStack();
+		/*
+		 * int[] A = { 4, 5, 2, 25 }; // stack.nextGreater(A); String s =
+		 * "(2+4) * (4+6)";
+		 * 
+		 * // create stack Stack<Integer> S=new Stack<>();
+		 * 
+		 * for(int i=0;i<5;i++) S.push(i);
+		 * 
+		 * 
+		 * S.push(30); S.push(-5);S.push(18); S.push(14); stack.sortStack(S);
+		 * //stack.insert_at_end(S,5); // print stack while(!S.isEmpty())
+		 * System.out.println(S.pop());
+		 */
+		int[][] A = { { 0, 1, 1, 1, 1 }, { 1, 0, 0, 1, 0 }, {1, 0, 0, 1, 0 }, { 0, 0, 0, 0, 0 }, { 0, 1, 0, 1, 0 } };
+         System.out.println(stack.findCelebrity(A));
+		// System.out.println(stack.expressionEvaluate(s));
+
+		/*
+		 * String s = "(a+b)"; System.out.println(stack.hasRedundantBraces(s));
+		 */
+		/*
+		 * System.out.println(stack.removeParanthesis(s));
+		 * System.out.println(stack.simplifyExpression(s)); int[] A = { 5, 1, 9, 2, 5,
+		 * 1, 7 }; System.out.println(stack.maxDifference(A)); int[] L =
+		 * stack.smallestOnLeft(A); int[] R = stack.largestOnRight(A); for (int i = 0; i
+		 * < R.length; i++) System.out.print(R[i] + " ");
+		 */
+
+	}
+
+}
