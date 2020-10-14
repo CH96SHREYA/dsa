@@ -1,0 +1,277 @@
+package reviseDSA;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map.Entry;
+import java.util.Stack;
+
+public class PractiseString {
+	// public static HashSet<String> hash;
+
+	public static void reverseEachWord(String A) {
+
+		Stack<Character> S = new Stack<>();
+
+		for (int i = 0; i < A.length(); i++) {
+			char ch = A.charAt(i);
+
+			if (ch != ' ')
+				S.push(ch);
+
+			else {
+				while (!S.isEmpty()) {
+					System.out.print(S.pop());
+
+				}
+				System.out.print(" ");
+			}
+		}
+		// pop last word
+		while (!S.isEmpty()) {
+			System.out.print(S.pop());
+
+		}
+
+	}
+
+	public boolean isItPalindrome(String s) {
+		if (s == null || s.length() == 0)
+			return true;
+		int mid = s.length() / 2;
+		int left = mid, right = mid;
+		while (left >= 0 && right < s.length()) {
+			if (s.charAt(left) != s.charAt(right))
+				return false;
+			left--;
+			right++;
+
+		}
+		return true;
+
+	}
+
+	public void printAllSubstrings(String s) {
+		StringBuilder bob;
+
+		for (int i = 0; i < s.length(); i++) {
+			bob = new StringBuilder().append(s.charAt(i));
+			for (int j = i + 1; j < s.length(); j++) {
+				bob.append(s.charAt(j));
+				System.out.println(bob.toString());
+			}
+		}
+	}
+
+	public int lengthOfPalindromeFromPoint(String s, int L, int R) {
+
+		if (s == null || s.length() == 0)
+			return 0;
+
+		int left = L, right = R;
+		while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+			left--;
+			right++;
+		}
+		return right - left - 1;
+
+	}
+
+	public String longestPalindromicSubstring(String s) {
+		if (s == null || s.length() == 0)
+			return " ";
+		int len1 = 0, len2 = 0, len = 0, start = 0, end = 0;
+		for (int i = 0; i < s.length(); i++) {
+			len1 = lengthOfPalindromeFromPoint(s, i, i);
+			len2 = lengthOfPalindromeFromPoint(s, i, i + 1);
+			len = Math.max(len1, len2);
+
+			if (len > end - start) {
+				start = i - (len - 1) / 2;
+				end = i + len / 2;
+			}
+
+		}
+		return s.substring(start, end + 1);
+	}
+
+	public void printPermutationUnique(String s, String ansSoFar, HashSet<String> hash) {
+		if (s == null)
+			return;
+		if (s.length() == 0) {
+			hash.add(ansSoFar);
+			// System.out.println(ansSoFar);
+		}
+		for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+			String leftS = s.substring(0, i);
+			String rightS = s.substring(i + 1);
+			printPermutationUnique(leftS + rightS, ansSoFar + ch, hash);
+		}
+
+	}
+
+	// is s1 rotation of s2
+	public boolean isRotation(String input, String rotated) {
+		if (input == null || rotated == null)
+			return false;
+		if (input.length() != rotated.length())
+			return false;
+		if (input.equalsIgnoreCase(rotated))
+			return true;
+		int index = rotated.indexOf(input.charAt(0));
+		if (index > -1) {
+			int finalPos = input.length() - index;
+			if (input.charAt(finalPos) == rotated.charAt(0)
+					&& rotated.substring(index).equalsIgnoreCase(input.substring(0, finalPos)))
+				return true;
+		}
+		return false;
+
+	}
+
+	// source: https://www.youtube.com/watch?v=VU-oGHqe9uE
+	public boolean isInterleaving(String fString, String sString, String iString) {
+
+		if (fString.isEmpty() && sString.isEmpty() && iString.isEmpty())
+			return true;
+		if (iString.isEmpty())
+			return false;
+
+		boolean first = (fString.length() > 0) && (fString.charAt(0) == iString.charAt(0))
+				&& isInterleaving(fString.substring(1), sString, iString.substring(1));
+
+		boolean second = (sString.length() > 0) && (sString.charAt(0) == iString.charAt(0))
+				&& isInterleaving(fString, sString.substring(1), iString.substring(1));
+
+		return first || second;
+
+	}
+
+	public int equalZerosOnesSubstring(String s) {
+		if (s == null)
+			return -1;
+		int count0 = 0, count1 = 0, count = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '0')
+				count0++;
+			else
+				count1++;
+
+			if (count0 == count1)
+				count++;
+		}
+		if (count > 0)
+			return count;
+		return -1;
+	}
+
+	static HashMap<Character, Integer> hash = new HashMap<>();
+	static int max_freq = 0;
+	static char max_char = 'z';
+
+	public boolean adjacentArrangementPossible(String s) {
+		if (s == null)
+			return false;
+
+		max_freq = 0;
+		for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+			if (hash.containsKey(ch))
+				hash.put(ch, hash.get(ch) + 1);
+			else
+				hash.put(ch, 1);
+			if (hash.get(ch) > max_freq) {
+				max_freq = hash.get(ch);
+				max_char = ch;
+			}
+		}
+
+		if (max_freq > ((s.length() + 1) / 2))
+			return false;
+		return true;
+
+	}
+
+	public char[] arrangeAdjacent(String s) {
+		char[] res = new char[s.length()];
+		if (!adjacentArrangementPossible(s))
+			return null;
+		int index = s.length() % max_freq;// this gives the separations b/w each character
+		if (index == 0 || index == 1)
+			index = 2;
+
+		Arrays.fill(res, '0');
+		for (int i = 0; i < s.length(); i = i + index)
+			res[i] = max_char;
+		int pos = 0;
+		int init_pos = 1, freq = 0;
+		char elem = 'a';
+
+		for (Entry entry : hash.entrySet()) {
+			pos = init_pos;
+			elem = (char) entry.getKey();
+			freq = (int) entry.getValue();
+			// System.out.println(elem + " "+freq); // got key value
+
+			if (elem != max_char) {
+				while (freq > 0 && (pos < s.length())) {
+					if (res[pos] == '0') {
+						res[pos] = elem;
+						freq--;
+					} else
+						pos += 2;
+				}
+				init_pos++;
+			}
+		}
+		while (freq-- > 0) {
+			int index0 = new String(res).indexOf('0');
+			if (index0 > 0)
+				res[index0] = elem;
+		}
+
+		return res;
+
+	}
+	public int  countUniqueCharacters(String s) {
+		if(s==null)
+			return -1;
+		HashSet <Character> set=new HashSet<>();
+		for(int i=0;i<s.length();i++) {
+			char ch=s.charAt(i);
+		     set.add(ch);
+		}
+		return set.size();			
+	}
+	
+
+	public static void main(String[] args) {
+		PractiseString handle = new PractiseString();
+		/*
+		 * // reverseEachWord("reverse this string"); String input = "CHATURVEDI";
+		 * String rotated="RVEDICHATU";
+		 * 
+		 * // System.out.println(handle.isRotation(input,rotated));
+		 * 
+		 * hash = new HashSet<>(); handle.printPermutationUnique(input, "", hash); for
+		 * (String elem : hash) System.out.println(elem);
+		 * 
+		 * //
+		 * System.out.println(handle.lengthOfPalindromeFromPoint(input.toLowerCase(),0))
+		 * ;
+		 */
+
+		// System.out.println(handle.isInterleaving("BA","CD","BCDA"));
+
+		String s = "acbababacbdac";
+		System.out.println(handle.substringAllCharacters("aaabbc"));
+
+		// System.out.println(max_freq + " " + max_char);
+		/*
+		 * for (char elem : res) System.out.print(elem + "  ");
+		 */
+
+	}
+
+}
